@@ -17,8 +17,8 @@ window.addEventListener('load', function () {
     });
     var fnMachineView  = new FnMachineView(analysedFunction, fnMachineCtrl);
 
-    var fnFormCtrl = new FnFormCtrl(analysedFunction, document.getElementById('fn-form'));
+    var fnFormCtrl = new FnFormCtrl(analysedFunction);
     var fnFormView = new FnFormView(analysedFunction, fnFormCtrl);
     
-    fnFormCtrl.addObserver(fnMachineCtrl);
+    fnFormView.init();
 });

@@ -1,39 +1,27 @@
-function analyseFunctionDeclaration (fnString, analysedFunc) {
+function analyseFunctionDeclaration (fnString) {
 
     var regex = /function\s+(\w*)\s*\(([^)]*)\)\s*{([\w\W]*)}/;
     var match = regex.exec(fnString);
 
     if (match) {
-        
-        var name       = extractName  (match[1]);
-        var parameters = extractParams(match[2]);
-        var returnVal  = extractRetVal(match[3]);
-        
-        if (analysedFunc) {
-            analysedFunc.setName      (name);
-            analysedFunc.setReturn    (returnVal);            
-            analysedFunc.setParameters(parameters);
-            return analysedFunc;
-        } else {
-            return new AnalysedFunction(name, parameters, returnVal);
-        }
-        
+        return {
+            name       : match[1],
+            parameters : extractParams(match[2]),
+            return     : extractRetVal(match[3])
+        };
     } else {
         return null;
     }
     
-    function extractName (fnBody) {
-        return fnBody || "(anonymous)";
-    }
-
     function extractRetVal (fnBody) {
-        var regex = /return\s+([^;]*)\s*;/;
+        var regex = /return\s+([^;]*)\s*/;
         var m = regex.exec(fnBody);
 
         if (m) {
             return m[1];
+        } else {
+            return null;
         }
-        return 'undefined';
     }
 
     function extractParams (param) {

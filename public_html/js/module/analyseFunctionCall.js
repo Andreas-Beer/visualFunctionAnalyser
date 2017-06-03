@@ -1,15 +1,14 @@
-function analyseFunctionCall (fnString, analysedFunc){
-        
-    analysedFunc.setArguments(extractArgs(fnString));
-    return analysedFunc;
-        
-    function extractArgs (args) {
+function analyseFunctionCall (argsString){
+
+    return extractArgs (argsString);
+  
+    function extractArgs (argsString) {
 
         var regex = /\[[^\]]*\]|{[^\}]*}|[^,\s]*/g;
         var argsList = [];
         var m;
 
-        while ((m = regex.exec(args)) !== null) {
+        while ((m = regex.exec(argsString)) !== null) {
             
             if (m[0]) {
                 argsList.push(m[0]);
@@ -20,5 +19,4 @@ function analyseFunctionCall (fnString, analysedFunc){
         
         return argsList;
     }
-    
 }

@@ -1,11 +1,8 @@
 /**
- * 
- * @param {string} name
- * @param {Array} params
- * @param {Any} returnVal
- * @returns {Object}
+ * @class AnalysedFunction
+ * @returns {AnalysedFunction}
  */
-function AnalysedFunction (name, params, returnVal) {
+function AnalysedFunction () {
         
     'use strict';
     
@@ -22,91 +19,77 @@ function AnalysedFunction (name, params, returnVal) {
     
     /* Class */        
     var fnAttr = {
-        name: name,
-        return: returnVal,
-        parameters: params,
-        arguments: [],
-        paramArgsMap: {},
-        loadingType: 0,
-        returnValType: null
+        name         : null,
+        return       : null,
+        parameters   : null,
+        arguments    : [],
+        paramArgsMap : {},
+        loadingType  : 0
     };
-    
-    (function constructor () {
         
-        if (!name === undefined) {
-            throw Error('invalid Function');
-        }
-        
-        setName(name);
-        setReturn(returnVal);
-        setParameters(params);
-        
-        notifyObservers();
-        
-    })();
-    
-    /* GET/SET */
+    /* GET / SET */
     function getName () {
-        return fnAttr.name || "";
+        return fnAttr.name;
     }
-    function getReturn () {
+    function getReturnValue () {
         return fnAttr.return;
-    }
-    function getReturnValType () {
-        return fnAttr.returnValType;
-    }
-    function getParameters () {
-        return fnAttr.parameters;
     }
     function getArguments () {
         return fnAttr.arguments;
     }
-    function getParamArgs () {
+    function getParameterArguments () {
         return fnAttr.paramArgsMap;
     }
-    function getLodingType (name) {
-        
-        var LOADINGTYPE_OVER  = 'over';
-        var LOADINGTYPE_UNDER = 'under';
-        var LOADINGTYPE_NORM  = 'fit';
-        
-        if (name) {
-            return fnAttr.loadingType < 0 ? LOADINGTYPE_UNDER : fnAttr.loadingType > 0 ? LOADINGTYPE_OVER : LOADINGTYPE_NORM;
-        }
+    function getLodingType () {        
         return fnAttr.loadingType;
     }
-    function hasCustomReturnValue () {
-        return fnAttr.return != null && fnAttr.returnValType != 'undefined';
+    function isValidFunction () {
+        return fnAttr.name !== null;
     }
     
     function setName (value) {
         if (fnAttr.name === value) { return; }
-        fnAttr.name = value; 
+        fnAttr.name = value;
     }
-    function setParameters (values) {
+    function setParam (values) {
         if (!(values instanceof Array)) {
             throw new Error('Parameters must be an array!, got "' + values + '"');
         }        
         fnAttr.parameters = values;
         findParamArgs();
-        findLoadingType();        
+        findLoadingType(); 
     }
     function setReturn (value) {
         if (fnAttr.return === value) { return; }
         fnAttr.return = value;
-        fnAttr.returnValType = (function (v) {
-            
-            if (v) {
-                try       { return typeof eval(v); }
-                catch (e) { return "not defined Variable"; }
-            } else {
-                return null;
-            }
-            
-        })(value);
     }
     
     /* Methods */
+   
+    function defaultValues () {
+        setName(null);
+        setParam([]);
+        setReturn(null);
+        notifyObservers();
+    }
+   function change (aFnDcl) {
+        
+        if (!aFnDcl) {
+            defaultValues();
+            return;
+        }
+        
+        setName(aFnDcl.name);
+        setParam(aFnDcl.parameters);
+        setReturn(aFnDcl.return);
+        notifyObservers();
+    }
+    function updateArguments (args) {           
+        fnAttr.arguments = args;
+        findParamArgs();
+        findLoadingType();
+        notifyObservers();
+    };
    
     function findParamArgs () {  
         fnAttr.paramArgsMap = {};
@@ -118,9 +101,7 @@ function AnalysedFunction (name, params, returnVal) {
     }
 
     function findLoadingType () {
-              
-        console.log('findLoadingType');
-        
+                      
         if (fnAttr.arguments.length < fnAttr.parameters.length) {
             fnAttr.loadingType = -1;
         } else
@@ -131,33 +112,25 @@ function AnalysedFunction (name, params, returnVal) {
         }
     };
     
-    function setArguments (args) {      
-        
-        if (args === undefined) {
-            throw new Error('no array passed');
-        }
-     
-        fnAttr.arguments = args;
-        findParamArgs();
-        findLoadingType();
-    };
+    function updateDeclaration (fnString) { 
+        change(analyseFunctionDeclaration(fnString));
+    }
     
-    return {
-        addObserver: addObserver,
-
-        getName: getName,
-        getReturn: getReturn,
-        getReturnValType: getReturnValType,
-        getParameters: getParameters,
-        getArguments: getArguments,
-        getParamArgs: getParamArgs,
-        getLodingType: getLodingType,
-
-        setName: setName,
-        setParameters: setParameters,
-        setReturn: setReturn,
-
-        hasCustomReturnValue: hasCustomReturnValue,
-        setArguments: setArguments
-    };
+    function updateInvocation (argsString) {
+        updateArguments(analyseFunctionCall(argsString));
+    }
+    
+    /*interface*/
+    
+    this.getName         = getName;
+    this.getReturnValue  = getReturnValue;
+    this.getArguments    = getArguments;
+    this.getParamArgs    = getParameterArguments;
+    this.getLodingType   = getLodingType; 
+    this.isValidFunction = isValidFunction;
+           
+    this.updateDeclaration = updateDeclaration;
+    this.updateInvocation  = updateInvocation;
+    
+    this.addObserver = addObserver;
 }
