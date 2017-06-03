@@ -1,0 +1,56 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.input {
+    position: absolute;
+    margin: 20px 50px;
+    display: inline-block;
+    padding: 20px;
+    box-shadow: 0 5px 12px rgba(0,0,0,.35);
+    width: 400px;
+    background-color: #fff;
+}
+.input fieldset {
+    padding: 10px;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 1px;
+    margin-top: 20px;
+}
+.input fieldset legend {
+    color: #aaa;
+}
+.input textarea.declaration {
+    width: 99%;
+    height: 150px;
+    resize: vertical;
+}
+.input span {
+    display: inline-block;
+}
+.input text.invocation {
+    width: 60%;
+    height: 1.5em;
+    resize: none;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+.input label {
+    display: inline-block;
+    width: 22%;
+}
+.input output,
+.input input {
+    display: inline-block;
+    width: 76%;
+}
+.input .invocation {
+    display: inline-block;
+    width: 40%;
+}
+svg {
+    margin: 20px 300px;
+    /*background-color: whitesmoke;*/
+}

@@ -1,0 +1,3 @@
+function FnMachineView (model, controller) {
+    
+}

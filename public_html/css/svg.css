@@ -1,0 +1,39 @@
+.text {
+    font-family: courier, monospace;
+    font-size:24px;
+    fill: blue;
+    color: blue;
+}
+
+.text.inner {
+    font-size: 20px;
+    fill: #000;
+    color: #000;
+}
+.text.inner span {
+    display: block;
+    margin-bottom: 1px;
+}
+
+
+.argument-bubble .text.index{
+    font-size: 20px;
+}
+.argument-bubble .text.value{
+    fill: #000;
+}
+
+
+.main {
+    fill:#86a0aa;
+    stroke:#000;
+    stroke-width: 4;
+    stroke-miterlimit: 10;
+}
+
+.shadow-1 { opacity:0.2; }
+.shadow-2 { opacity:0.4; }
+.shadow-3 { opacity:0.6; }
+
+.light-1  { opacity:0.2; fill:#FFFFFF; }
+.light-2  { opacity:0.6; fill:#FFFFFF; }
