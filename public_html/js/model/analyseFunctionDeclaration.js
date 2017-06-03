@@ -1,4 +1,6 @@
 function analyseFunctionDeclaration (fnString) {
+    
+    'use strinct';
 
     var regex = /function\s+(\w*)\s*\(([^)]*)\)\s*{([\w\W]*)}/;
     var match = regex.exec(fnString);

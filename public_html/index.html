@@ -7,17 +7,15 @@
         <link href="css/svg.css" rel="stylesheet" />
         
         <script src="js/model/AnalysedFunction.js"></script>
+        <script src="js/model/analyseFunctionDeclaration.js"></script>
+        <script src="js/model/analyseFunctionCall.js"></script>
         
-        <script src="js/controller/FnMachineCtrl_part.js"></script>
-        <script src="js/controller/FnMachineCtrl.js"></script>
-        <script src="js/controller/FnFormCtrl.js"></script>
-        
+        <script src="js/view/ArgumentsBubble.js"></script>
         <script src="js/view/FnFormView.js"></script>
         <script src="js/view/FnMachineView.js"></script>
-        <script src="js/view/ArgumentsBubble.js"></script>
+        <script src="js/view/FnMachineView_part.js"></script>
         
-        <script src="js/module/analyseFunctionDeclaration.js"></script>
-        <script src="js/module/analyseFunctionCall.js"></script>
+        <script src="js/controller/FnFormCtrl.js"></script>
         
         <script src="js/main.js"></script>
 
@@ -29,15 +27,15 @@
             <fieldset>
                 <legend>Definition</legend>
                 <textarea id="declaration" class="declaration">function (a,b,c) {}</textarea>
-                <div><label for="name">Name:</label><output id="name" >?</output> </div>
-                <div><label for="retval">Return:</label><output id="return" >?</output></div>
-                <div><label for="param">Parameter:</label><output id="parameter" >?</output></div>
+                <div id="name"><span class="label">Name:</span><output class="txt"></output> </div>
+                <div id="return"><span class="label">Return:</span><output class="txt"></output></div>
+                <div id="parameter"><span class="label">Parameter:</span><output class="txt"></output></div>
+                <div id="loading"><span class="label">Loading:</span><output class="txt"></output></div>
             </fieldset>
             
-            <fieldset id="set-call" style="display: none">
+            <fieldset id="call" style="display: none">
                 <legend>Call</legend>
-                <div><label for="loading">Loading:</label><output id="loading"></output></div>
-                <div><span id="call-name"></span> <span>(</span><input id="invocation" class="invocation" /><span>)</span></div>
+                <div><span id="call-name"></span> <span>(</span><input id="invocation" class="invocation" value="1,2" /><span>)</span></div>
             </fieldset>
         </form>
 
@@ -70,8 +68,13 @@
                     <rect x="260" y="232" class="main" width="504" height="304"/>
                     <text id="fn-body--text" transform="matrix(1 0 0 1 250 570)" class="text"></text>
                 </g>
-                <g id="fn-arguments">
+                <g id="fn-paramargs">
                     <foreignObject x="284" y="250" width="500" height="1000" >
+                        <p id="fn-body-paramargs--text" class="text inner">sdlkjfsd.ldfkhj</p>
+                    </foreignObject>
+                </g>
+                <g id="fn-arguments">
+                    <foreignObject x="554" y="250" width="500" height="1000" >
                         <p id="fn-body-arguments--text" class="text inner"></p>
                     </foreignObject>
                 </g>

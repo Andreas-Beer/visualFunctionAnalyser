@@ -1,5 +1,7 @@
 function analyseFunctionCall (argsString){
 
+    'use strinct';
+
     return extractArgs (argsString);
   
     function extractArgs (argsString) {

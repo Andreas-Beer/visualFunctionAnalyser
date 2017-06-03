@@ -10,11 +10,10 @@
  * @param   {htmlElement} element
  * @returns {object} FnMachinePart
  */
-function FnMachineCtrl_part (element) {
+function FnMachineView_part (element) {
     
     'use strinct';
     
-    var hightlightColor = '#c22';
     var mainColor;
 
     var parts = {
@@ -71,14 +70,11 @@ function FnMachineCtrl_part (element) {
         }
     }
     
-    return {
-        hide: hide,
-        show: show,
-        
-        showSpecial: showSpecial,
-        hideSpecial: hideSpecial,
-        
-        setText: setText
-    };
+    /*Interface*/
+    this.show = show;
+    this.hide = hide;
+    this.showSpecial = showSpecial;
+    this.hideSpecial = hideSpecial;
+    this.setText = setText;
     
 }
