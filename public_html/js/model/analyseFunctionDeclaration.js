@@ -2,14 +2,15 @@ function analyseFunctionDeclaration (fnString) {
     
     'use strinct';
 
-    var regex = /function\s+(\w*)\s*\(([^)]*)\)\s*{([\w\W]*)}/;
+    var regex = /^(?:(?:var\s+(\w+)\s*=\s*function)|(?:function\s+))?\s*(\w*)\s*\(([^)]*)\)\s*{([\w\W]*)}/;
     var match = regex.exec(fnString);
 
     if (match) {
         return {
-            name       : match[1],
-            parameters : extractParams(match[2]),
-            return     : extractRetVal(match[3])
+            name_ext   : match[1],
+            name_int   : match[2],
+            parameters : extractParams(match[3]),
+            return     : extractRetVal(match[4])
         };
     } else {
         return null;

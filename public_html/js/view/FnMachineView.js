@@ -2,18 +2,19 @@ function FnMachineView (model, controller) {
     
     'use strinct';
     
-    var OFFSET_TEXT_RETURN_WITH_VAL = { x: 92, y: 14 };
+    var OFFSET_TEXT_RETURN_WITH_VAL = { x: 104, y: 14 };
     var OFFSET_ARGUMENTS = 50;
     
     var bubbleContainer = document.getElementById('fn-parameter--argBubbles');
     
     var parts = {
-        body   : new FnMachineView_part(document.getElementById('fn-body'      )),
-        args   : new FnMachineView_part(document.getElementById('fn-arguments' )),
-        pargs  : new FnMachineView_part(document.getElementById('fn-paramargs' )),
-        param  : new FnMachineView_part(document.getElementById('fn-parameter' )),
-        return : new FnMachineView_part(document.getElementById('fn-return'    )),
-        call   : new FnMachineView_part(document.getElementById('fn-invocation'))
+        body  : new FnMachineView_part(document.getElementById('fn-body'      )),
+        name  : new FnMachineView_part(document.getElementById('fn-name'      )),
+        args  : new FnMachineView_part(document.getElementById('fn-arguments' )),
+        pargs : new FnMachineView_part(document.getElementById('fn-paramargs' )),
+        param : new FnMachineView_part(document.getElementById('fn-parameter' )),
+        return: new FnMachineView_part(document.getElementById('fn-return'    )),
+        call  : new FnMachineView_part(document.getElementById('fn-invocation'))
     }; 
     
     (function constructor () {
@@ -46,12 +47,7 @@ function FnMachineView (model, controller) {
             return txt;
         }        
         function getArguments () {
-            
-            // return if nothing has changed
-            if (!model.isArgumetnsDirty()) {
-                return;
-            }
-                        
+                                    
             var newArgs = Object.values(model.getArguments());
 
             bubblesTxt = '';
@@ -90,7 +86,8 @@ function FnMachineView (model, controller) {
             return txt;
         }
         
-        parts.body .setText(model.getName());  
+        parts.name .setText(model.getName_extern() || '(anonymus)');  
+        parts.body .setText(model.getName_intern() || '(anonymus)');  
         parts.args .setText(getArgsText());
         parts.pargs.setText(getArgsParams());
                 
@@ -107,6 +104,7 @@ function FnMachineView (model, controller) {
     function showInValidView () {
         
         parts.body  .setText('');
+        parts.name  .setText('');
         
         parts.call  .hide();
         parts.param .hide();

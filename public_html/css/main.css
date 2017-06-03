@@ -37,18 +37,22 @@
     display: inline-block;
     margin-bottom: 20px;
 }
-.input .label {
-    display: inline-block;
-    width: 22%;
+.input .properties {
+    margin-bottom: 10px; 
+    border-bottom: 1px solid #ccc;
 }
-.input output,
-.input input {
+
+.input .properties .label {
     display: inline-block;
-    width: 76%;
+    width: 30%;
+}
+.input .properties output,
+.input .properties input {
+    display: inline;
 }
 .input .invocation {
     display: inline-block;
-    width: 40%;
+    width: 66%;
 }
 svg {
     margin: 20px 300px;

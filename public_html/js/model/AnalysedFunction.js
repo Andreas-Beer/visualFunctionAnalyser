@@ -19,18 +19,21 @@ function AnalysedFunction () {
     
     /* Class */        
     var fnAttr = {
+        name_ext        : null,
         name            : null,
         return          : null,
-        parameters      : null,
+        parameters      : [],
         arguments       : [],
-        argumentsDirty  : false,
         paramArgsMap    : {},
         loadingType     : 0
     };
         
     /* GET / SET */
-    function getName () {
+    function getName_intern () {
         return fnAttr.name;
+    }
+    function getName_extern () {
+        return fnAttr.name_ext;
     }
     function getReturnValue () {
         return fnAttr.return;
@@ -48,21 +51,20 @@ function AnalysedFunction () {
     function isValidFunction () {
         return fnAttr.name !== null;
     }
-    function isArgumetnsDirty () {
-        return fnAttr.argumentsDirty;
-    }
     
     function setName (value) {
-        if (fnAttr.name === value) { return; }
         fnAttr.name = value;
     }
-    function setParam (values) {
+    function setName_ext (value) {
+        fnAttr.name_ext = value;
+    }
+    function setParameters (values) {
         if (!(values instanceof Array)) {
             throw new Error('Parameters must be an array!, got "' + values + '"');
         }        
         fnAttr.parameters = values;
-        findParamArgs();
-        findLoadingType(); 
+        updateParamArgsMap();
+        updateLoadingType(); 
     }
     function setReturn (value) {
         if (fnAttr.return === value) { return; }
@@ -71,14 +73,12 @@ function AnalysedFunction () {
     function setArguments (value) {
         
         if (fnAttr.arguments.join() === value.join()) {
-            fnAttr.argumentsDirty = false;
             return;
         }
         
-        fnAttr.argumentsDirty = true;
-        fnAttr.arguments      = value;
-        fnAttr.paramArgsMap   = findParamArgs();
-        fnAttr.loadingType    = findLoadingType();
+        fnAttr.arguments = value;
+        updateParamArgsMap();
+        updateLoadingType();
         notifyObservers();
     }
     
@@ -86,43 +86,55 @@ function AnalysedFunction () {
    
     function defaultValues () {
         setName(null);
-        setParam([]);
+        setParameters([]);
         setReturn(null);
         notifyObservers();
     }
     function change (aFnDcl) {
         
+        console.log(aFnDcl);
+       
         if (!aFnDcl) {
             defaultValues();
             return;
         }
         
-        setName(aFnDcl.name);
-        setParam(aFnDcl.parameters);
-        setReturn(aFnDcl.return);
+        if (aFnDcl.name_ext) {
+            setName_ext(aFnDcl.name_ext);
+        } else {
+            setName_ext(aFnDcl.name_int);
+        }
+
+        setName(aFnDcl.name_int);
+        setParameters(aFnDcl.parameters);
+        setReturn(aFnDcl.return || null);
+      
         notifyObservers();
     }
    
-    function findParamArgs () {  
+    function updateParamArgsMap () { 
+        
         var paramArgsMap = {};
         for (var i = 0; i < fnAttr.parameters.length; i++) {            
             var p = fnAttr.parameters[i];
             var a = fnAttr.arguments[i];
             paramArgsMap[p] = a;
         }
-        return paramArgsMap
+        fnAttr.paramArgsMap = paramArgsMap;
     }
 
-    function findLoadingType () {
-                      
+    function updateLoadingType () {
+        
+        var loadingType = 0;
+        
         if (fnAttr.arguments.length < fnAttr.parameters.length) {
-            return  -1;
+            loadingType =  -1;
         } else
         if (fnAttr.arguments.length > fnAttr.parameters.length) {
-            return  1;
-        } else {
-            return  0;
+            loadingType =  1;
         }
+        
+        fnAttr.loadingType = loadingType;
     };
     
     function updateDeclaration (fnString) { 
@@ -135,13 +147,13 @@ function AnalysedFunction () {
     
     /*interface*/
     
-    this.getName          = getName;
+    this.getName_intern   = getName_intern;
+    this.getName_extern   = getName_extern;
     this.getReturnValue   = getReturnValue;
     this.getArguments     = getArguments;
     this.getParamArgs     = getParameterArguments;
     this.getLodingType    = getLodingType; 
     this.isValidFunction  = isValidFunction;
-    this.isArgumetnsDirty = isArgumetnsDirty;
            
     this.updateDeclaration = updateDeclaration;
     this.updateInvocation  = updateInvocation;
