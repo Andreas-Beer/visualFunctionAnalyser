@@ -3,58 +3,62 @@
     margin: 0;
     padding: 0;
 }
-.input {
+
+body {
+   font-family: courier, monospace;
+   font-size: 14px;
+}
+
+.fn-form {
     position: absolute;
     margin: 20px 50px;
     display: inline-block;
     padding: 20px;
-    box-shadow: 0 5px 12px rgba(0,0,0,.35);
-    width: 400px;
+    box-shadow: 0 5px 16px rgba(0,0,0,.35);
+    width: 450px;
     background-color: #fff;
 }
-.input fieldset {
+.fn-form fieldset {
     padding: 10px;
-    border-color: transparent;
+    border-color: #fff;
     border-style: solid;
     border-width: 1px;
     margin-top: 20px;
 }
-.input fieldset legend {
+.fn-form fieldset legend {
     color: #aaa;
 }
-.input textarea.declaration {
+.fn-form .declaration {
     width: 99%;
     height: 150px;
     resize: vertical;
+    outline: none;
+    border: 1px solid #ccc;
+    padding: 4px;
 }
-.input span {
-    display: inline-block;
+.fn-form .properties {
+    padding: 6px 4px;
+    background-color: #e5e5e5;
 }
-.input text.invocation {
-    width: 60%;
-    height: 1.5em;
-    resize: none;
-    display: inline-block;
-    margin-bottom: 20px;
+.fn-form .properties:nth-of-type(2n+1) {
+    background-color: #efefef;
 }
-.input .properties {
-    margin-bottom: 10px; 
-    border-bottom: 1px solid #ccc;
-}
-
-.input .properties .label {
+.fn-form .properties .label {
+    font-weight: 700;
     display: inline-block;
     width: 30%;
 }
-.input .properties output,
-.input .properties input {
-    display: inline;
-}
-.input .invocation {
+.fn-form .invocation {
     display: inline-block;
-    width: 66%;
+    width: 95%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 4px;
+    outline: none;
+    margin: 0 5px;
 }
+
 svg {
-    margin: 20px 300px;
+    margin: 20px 320px;
     /*background-color: whitesmoke;*/
 }

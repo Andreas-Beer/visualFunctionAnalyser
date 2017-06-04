@@ -8,13 +8,13 @@ function FnMachineView (model, controller) {
     var bubbleContainer = document.getElementById('fn-parameter--argBubbles');
     
     var parts = {
-        body  : new FnMachineView_part(document.getElementById('fn-body'      )),
-        name  : new FnMachineView_part(document.getElementById('fn-name'      )),
-        args  : new FnMachineView_part(document.getElementById('fn-arguments' )),
-        pargs : new FnMachineView_part(document.getElementById('fn-paramargs' )),
-        param : new FnMachineView_part(document.getElementById('fn-parameter' )),
-        return: new FnMachineView_part(document.getElementById('fn-return'    )),
-        call  : new FnMachineView_part(document.getElementById('fn-invocation'))
+        nameInt: new FnMachineView_part(document.getElementById('fn-name-int'  )),
+        nameExt: new FnMachineView_part(document.getElementById('fn-name-ext'  )),
+        args   : new FnMachineView_part(document.getElementById('fn-arguments' )),
+        pargs  : new FnMachineView_part(document.getElementById('fn-paramargs' )),
+        param  : new FnMachineView_part(document.getElementById('fn-parameter' )),
+        return : new FnMachineView_part(document.getElementById('fn-return'    )),
+        call   : new FnMachineView_part(document.getElementById('fn-invocation'))
     }; 
     
     (function constructor () {
@@ -86,31 +86,32 @@ function FnMachineView (model, controller) {
             return txt;
         }
         
-        parts.name .setText(model.getName_extern() || '(anonymus)');  
-        parts.body .setText(model.getName_intern() || '(anonymus)');  
-        parts.args .setText(getArgsText());
-        parts.pargs.setText(getArgsParams());
+        parts.nameExt.setText(model.getName_extern() || '(anonymus)');  
+        parts.nameInt.setText(model.getName_intern() || '(anonymus)');  
+        parts.args   .setText(getArgsText());
+        parts.pargs  .setText(getArgsParams());
                 
-        parts.call  .show();
-        parts.param .show();
-        parts.pargs .show();
-        parts.return.show();
-        parts.args  .show();
+        parts.nameExt.show();
+        parts.nameInt.show();
+        parts.call   .show();
+        parts.param  .show();
+        parts.pargs  .show();
+        parts.return .show();
+        parts.args   .show();
 
         bubbleContainer.innerHTML = getArguments();
         displayReturn();
     }
     
     function showInValidView () {
-        
-        parts.body  .setText('');
-        parts.name  .setText('');
-        
-        parts.call  .hide();
-        parts.param .hide();
-        parts.pargs .hide();
-        parts.return.hide();
-        parts.args  .hide();
+                
+        parts.nameExt.hide();
+        parts.nameInt.hide();
+        parts.call   .hide();
+        parts.param  .hide();
+        parts.pargs  .hide();
+        parts.return .hide();
+        parts.args   .hide();
     }
       
     function update () {   
