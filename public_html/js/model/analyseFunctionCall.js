@@ -3,22 +3,39 @@ function analyseFunctionCall (argsString){
     'use strinct';
 
     return extractArgs (argsString);
-  
+    
     function extractArgs (argsString) {
+        
+        var ret = [];
+        var tpmStr = '';
+        var layerDepth = 0;
 
-        var regex = /\[[^\]]*\]|{[^\}]*}|[^,\s]*/g;
-        var argsList = [];
-        var m;
+        for (var i = 0; i < argsString.length; i++) {
 
-        while ((m = regex.exec(argsString)) !== null) {
+            var item = argsString[i];
+
+            switch (item) {
+                case ' ': continue;
+                case '[':
+                case '{': layerDepth++; break;
+                case ']':
+                case '}': layerDepth--; break;
+            }
             
-            if (m[0]) {
-                argsList.push(m[0]);
+            if (item === ',' && layerDepth === 0) {
+                ret.push(tpmStr);
+                tpmStr = '';
             } else {
-                regex.lastIndex++;
+                tpmStr += item;
             }
         }
         
-        return argsList;
+        // if there is some string stored, add it
+        if (tpmStr !== '') {
+            ret.push(tpmStr);
+            tpmStr = '';
+        }
+        
+        return ret;
     }
 }

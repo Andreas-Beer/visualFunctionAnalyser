@@ -4,9 +4,12 @@
  * @author Andreas Beer <anderasbeer@gmx.com>
  */
 
+var visualFunctionAnalyser = {};
+
 window.addEventListener('load', function () {
     
     'use strinct';
+    
     
     var analysedFunction = new AnalysedFunction("", [], "");
 
@@ -16,4 +19,6 @@ window.addEventListener('load', function () {
     var fnFormView = new FnFormView(analysedFunction, fnFormCtrl);
     
     fnFormView.init();
+    
+    visualFunctionAnalyser.machine = fnMachineView;
 });

@@ -42,7 +42,7 @@ function FnMachineView (model, controller) {
             var paramArgs = model.getParamArgs();
             var txt = '';
             for (var param in paramArgs) {
-                txt += 'var ' + param + ' = ' + paramArgs[param] + '<br/>';
+                txt += 'var ' + param + ' = ' + paramArgs[param] + ';<br/>';
             }
             return txt;
         }        
@@ -123,6 +123,16 @@ function FnMachineView (model, controller) {
         }
     }
     
+    
     this.update = update;
-
+    
+    /* debugging */
+    function show (name) {
+        parts[name].show();
+    }
+    function hide (name) {
+        parts[name].hide();
+    }
+    this.show = show;
+    this.hide = hide;
 }

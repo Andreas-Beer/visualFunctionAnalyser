@@ -7,8 +7,9 @@
             <file>file:/G:/WebPlayground/__JS_PROJECTS/visualFunctionAnalyser/public_html/css/main.css</file>
         </group>
         <group name="functionAnalyser">
-            <file>file:/G:/WebPlayground/__JS_PROJECTS/visualFunctionAnalyser/public_html/index.html</file>
-            <file>file:/G:/WebPlayground/__JS_PROJECTS/visualFunctionAnalyser/public_html/js/model/AnalysedFunction.js</file>
+            <file>file:/G:/WebPlayground/__JS_PROJECTS/visualFunctionAnalyser/public_html/js/view/FnMachineView.js</file>
+            <file>file:/G:/WebPlayground/__JS_PROJECTS/visualFunctionAnalyser/public_html/js/model/analyseFunctionDeclaration.js</file>
+            <file>file:/G:/WebPlayground/__JS_PROJECTS/visualFunctionAnalyser/public_html/js/main.js</file>
         </group>
     </open-files>
 </project-private>
