@@ -22,6 +22,11 @@ function FnMachineView_part (element) {
         special: null
     };
     
+    var position = {
+        x: 0,
+        y: 0
+    };
+    
     (function constructor () {
                 
         if (!element) {
@@ -35,6 +40,10 @@ function FnMachineView_part (element) {
         if (parts.main.length > 0) {
             mainColor = parts.main[0].style.color;
         }
+        
+        position = extractPosition(element.getAttribute('transform'));
+        
+        console.log(element.getAttribute('transform'), position);
         
     })();
     
@@ -70,11 +79,36 @@ function FnMachineView_part (element) {
         }
     }
     
+    function offsetPosition (offset) {
+        
+        offset = offset || {};
+        offset.x = offset.x || 0;
+        offset.y = offset.y || 0;
+        
+        var newX = +position.x + +offset.x
+        var newY = +position.y + +offset.y
+        var translate = 'translate(' + newX + ', ' + newY + ')';
+        
+        console.log(element, translate);
+    
+        element.setAttribute('transform', translate);
+    }
+    
+    function extractPosition (translate) {
+        var regex = /\((-?\d*)\s*,\s*(-?\d*)\)/;
+        var res = regex.exec(translate);
+        
+        console.log(res);
+        
+        return res != null ? { x: res[1], y: res[2] } : { x: 0, y: 0 };
+    }
+    
     /*Interface*/
     this.show = show;
     this.hide = hide;
     this.showSpecial = showSpecial;
     this.hideSpecial = hideSpecial;
     this.setText = setText;
+    this.offsetPosition = offsetPosition;
     
 }

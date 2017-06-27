@@ -7,6 +7,10 @@ function FnMachineView (model, controller) {
     
     var bubbleContainer = document.getElementById('fn-parameter--argBubbles');
     
+    var bodyRect = document.getElementById('fn-body').getElementsByTagName('rect')[0];
+    var bodyRectWidth = +bodyRect.getAttribute('width');
+    var bodyRectHight = +bodyRect.getAttribute('height');
+    
     var parts = {
         nameInt: new FnMachineView_part(document.getElementById('fn-name-int'  )),
         nameExt: new FnMachineView_part(document.getElementById('fn-name-ext'  )),
@@ -35,7 +39,20 @@ function FnMachineView (model, controller) {
                 parts.return.hideSpecial();
                 parts.return.setText('undefined'); 
             }
-        }        
+        }   
+        function resize (offset) {
+            
+            parts.nameExt.offsetPosition({x: 0, y: offset.y });
+            parts.nameInt.offsetPosition({x: 0, y: offset.y });
+            
+            parts.args.offsetPosition({x: offset.x / 2, y: 0 });
+            parts.call.offsetPosition({x: offset.x, y: 0 });
+            
+            parts.return.offsetPosition(offset);
+            
+            bodyRect.setAttribute('width', bodyRectWidth + offset.x || 0);
+            bodyRect.setAttribute('height', bodyRectHight + offset.y || 0);
+        }
         
         function getArgsParams () {
             
@@ -98,9 +115,19 @@ function FnMachineView (model, controller) {
         parts.pargs  .show();
         parts.return .show();
         parts.args   .show();
-
+        
         bubbleContainer.innerHTML = getArguments();
         displayReturn();
+        
+        
+        var stepsH = 22;
+        var height = model.getArguments().length > 5 ? model.getArguments().length - 5 : 1;
+        
+        var stepsW = 23;
+        var maxLength = Math.max.apply(null, model.getArguments().map(function (elm) { return elm.toString().length; }));
+        var width = maxLength > 10 ? maxLength - 10 : 1;
+                
+        resize({ x: width * stepsW, y: height * stepsH });
     }
     
     function showInValidView () {
