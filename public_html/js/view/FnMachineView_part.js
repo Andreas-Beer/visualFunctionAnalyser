@@ -43,7 +43,7 @@ function FnMachineView_part (element) {
         
         position = extractPosition(element.getAttribute('transform'));
         
-        console.log(element.getAttribute('transform'), position);
+//        console.log(element.getAttribute('transform'), position);
         
     })();
     
@@ -89,7 +89,7 @@ function FnMachineView_part (element) {
         var newY = +position.y + +offset.y
         var translate = 'translate(' + newX + ', ' + newY + ')';
         
-        console.log(element, translate);
+//        console.log(element, translate);
     
         element.setAttribute('transform', translate);
     }
@@ -98,7 +98,7 @@ function FnMachineView_part (element) {
         var regex = /\((-?\d*)\s*,\s*(-?\d*)\)/;
         var res = regex.exec(translate);
         
-        console.log(res);
+//        console.log(res);
         
         return res != null ? { x: res[1], y: res[2] } : { x: 0, y: 0 };
     }

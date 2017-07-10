@@ -92,7 +92,7 @@ function AnalysedFunction () {
     }
     function change (aFnDcl) {
         
-        console.log(aFnDcl);
+//        console.log(aFnDcl);
        
         if (!aFnDcl) {
             defaultValues();

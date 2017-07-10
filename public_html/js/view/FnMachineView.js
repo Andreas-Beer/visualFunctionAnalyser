@@ -4,6 +4,8 @@ function FnMachineView (model, controller) {
     
     var OFFSET_TEXT_RETURN_WITH_VAL = { x: 104, y: 14 };
     var OFFSET_ARGUMENTS = 50;
+    var STEPS_DYNAMIC_WIDTH = 23;
+    var STEPS_DYNAMIC_HEIGHT = 23;  
     
     var bubbleContainer = document.getElementById('fn-parameter--argBubbles');
     
@@ -45,7 +47,7 @@ function FnMachineView (model, controller) {
             parts.nameExt.offsetPosition({x: 0, y: offset.y });
             parts.nameInt.offsetPosition({x: 0, y: offset.y });
             
-            parts.args.offsetPosition({x: offset.x / 2, y: 0 });
+            parts.args.offsetPosition({x: offset.x / 1.8, y: 0 });
             parts.call.offsetPosition({x: offset.x, y: 0 });
             
             parts.return.offsetPosition(offset);
@@ -102,6 +104,30 @@ function FnMachineView (model, controller) {
 
             return txt;
         }
+        function getDynamicHeight () {
+            var length = model.getArguments().length;
+            if (length > 5) {
+                return length - 5;
+            } else {
+                return 1;
+            }
+        }
+        function getDynamicWidth () {
+            var paramArgs = model.getParamArgs();
+            var values = [];
+
+            for (var key in paramArgs) {
+                values.push(("" + key + paramArgs[key]).length);
+            }
+
+            var maxLength = Math.max.apply(null, values);
+
+            if (maxLength > 10) {
+                return maxLength - 10;
+            } else {
+                return 1;
+            }
+        }
         
         parts.nameExt.setText(model.getName_extern() || '(anonymus)');  
         parts.nameInt.setText(model.getName_intern() || '(anonymus)');  
@@ -119,15 +145,10 @@ function FnMachineView (model, controller) {
         bubbleContainer.innerHTML = getArguments();
         displayReturn();
         
-        
-        var stepsH = 22;
-        var height = model.getArguments().length > 5 ? model.getArguments().length - 5 : 1;
-        
-        var stepsW = 23;
-        var maxLength = Math.max.apply(null, model.getArguments().map(function (elm) { return elm.toString().length; }));
-        var width = maxLength > 10 ? maxLength - 10 : 1;
-                
-        resize({ x: width * stepsW, y: height * stepsH });
+        resize({
+            x: STEPS_DYNAMIC_WIDTH * getDynamicWidth(),
+            y: STEPS_DYNAMIC_HEIGHT * getDynamicHeight()
+        });
     }
     
     function showInValidView () {
@@ -150,7 +171,6 @@ function FnMachineView (model, controller) {
         }
     }
     
-    
     this.update = update;
     
     /* debugging */
@@ -162,4 +182,8 @@ function FnMachineView (model, controller) {
     }
     this.show = show;
     this.hide = hide;
+    this.parts = {
+        nameInt: "nameInt", nameExt: "nameExt", args: "args", pargs: "pargs",
+        param: "param", return: "return", call: "call"    
+    };
 }
