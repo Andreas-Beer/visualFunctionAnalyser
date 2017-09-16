@@ -4,21 +4,30 @@
  * @author Andreas Beer <anderasbeer@gmx.com>
  */
 
-var visualFunctionAnalyser = {};
-
 window.addEventListener('load', function () {
-    
-    'use strinct';
-    
-    
-    var analysedFunction = new AnalysedFunction("", [], "");
 
-    var fnMachineView  = new FnMachineView(analysedFunction);
-    
-    var fnFormCtrl = new FnFormCtrl(analysedFunction);
-    var fnFormView = new FnFormView(analysedFunction, fnFormCtrl);
-    
-    fnFormView.init();
-    
-    visualFunctionAnalyser.machine = fnMachineView;
+  'use strinct';
+  
+  var analysedFunction = new AnalysedFunction("", [], "");
+
+  var parts = {
+    nameInt : 'fn-name-int',
+    nameExt : 'fn-name-ext',
+    args    : 'fn-arguments',
+    pargs   : 'fn-paramargs',
+    param   : 'fn-parameter',
+    returnV : 'fn-return',
+    callF   : 'fn-invocation'
+  };
+
+  var fnMachinePartsHideView = new FnMachinePartsHideView(parts);
+  
+  var fnMachineView = new FnMachineView(analysedFunction, parts, fnMachinePartsHideView);
+  
+  var fnMachinePartsHideCtrl = new FnMachinePartsHideCtrl(fnMachineView, fnMachinePartsHideView);
+
+  var fnFormView = new FnFormView(analysedFunction);
+  var fnFormCtrl = new FnFormCtrl(fnFormView, analysedFunction);
+  
+  fnFormCtrl.init();
 });
