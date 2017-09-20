@@ -1,3 +1,5 @@
+/* global stringRepresentation */
+
 /**
  * @class AnalysedFunction
  * @returns {AnalysedFunction}
@@ -5,6 +7,18 @@
 function AnalysedFunction () {
         
     'use strict';
+    
+    /*interface*/
+    this.getName_intern    = getName_intern;
+    this.getName_extern    = getName_extern;
+    this.getReturnValue    = getReturnValue;
+    this.getArguments      = getArguments;
+    this.getParamArgs      = getParameterArguments;
+    this.getLodingType     = getLodingType; 
+    this.isValidFunction   = isValidFunction;
+    this.updateDeclaration = updateDeclaration;
+    this.updateInvocation  = updateInvocation;
+    this.addObserver       = addObserver;
     
     /* Obserable */
     var observers = [];
@@ -17,69 +31,77 @@ function AnalysedFunction () {
         }
     }
     
-    /* Class */        
-    var fnAttr = {
-        name_ext        : null,
-        name            : null,
-        return          : null,
-        parameters      : [],
-        arguments       : [],
-        paramArgsMap    : {},
-        loadingType     : 0
-    };
+  /* Vars */        
+  var fnAttr = {
+    name_ext     : null,
+    name         : null,
+    return       : null,
+    parameters   : [],
+    arguments    : [],
+    paramArgsMap : {},
+    loadingType  : 0
+  };
         
     /* GET / SET */
-    function getName_intern () {
-        return fnAttr.name;
+  function getName_intern () {
+    return fnAttr.name;
+  }
+  function getName_extern () {
+    return fnAttr.name_ext;
+  }
+  function getReturnValue () {
+    return fnAttr.return;
+  }
+  function getArguments (readable) {
+    if (!readable) {
+      return fnAttr.arguments;
+    } else {
+      return fnAttr.arguments.map(stringRepresentation);
     }
-    function getName_extern () {
-        return fnAttr.name_ext;
+  }
+  function getParameterArguments (readable) {  
+    if (!readable) {
+      return fnAttr.paramArgsMap;
+    } else {
+      var ret = {};
+      for (var key in fnAttr.paramArgsMap) {
+        ret[key] = stringRepresentation(fnAttr.paramArgsMap[key]);
+      }
+      return ret;
     }
-    function getReturnValue () {
-        return fnAttr.return;
-    }
-    function getArguments () {
-        return fnAttr.arguments;
-    }
-    function getParameterArguments () {
-        return fnAttr.paramArgsMap;
-    }
-    function getLodingType () {        
-        return fnAttr.loadingType;
-    }
-    
-    function isValidFunction () {
-        return fnAttr.name !== null;
-    }
-    
-    function setName (value) {
-        fnAttr.name = value;
-    }
-    function setName_ext (value) {
-        fnAttr.name_ext = value;
-    }
+  }
+  function getLodingType () {
+    return fnAttr.loadingType;
+  }
+
+  function isValidFunction () {
+    return fnAttr.name !== null;
+  }
+
+  function setName (value) {
+    fnAttr.name = value;
+  }
+  function setName_ext (value) {
+    fnAttr.name_ext = value;
+  }
     function setParameters (values) {
-        if (!(values instanceof Array)) {
-            throw new Error('Parameters must be an array!, got "' + values + '"');
-        }        
-        fnAttr.parameters = values;
-        updateParamArgsMap();
-        updateLoadingType(); 
+      if (!(values instanceof Array)) {
+        throw new Error('Parameters must be an array!, got "' + values + '"');
+      }  
+
+      fnAttr.parameters = values;
+      updateParamArgsMap();
+      updateLoadingType(); 
     }
     function setReturn (value) {
-        if (fnAttr.return === value) { return; }
-        fnAttr.return = value;
+      if (fnAttr.return === value) { return; }
+      fnAttr.return = value;
     }
-    function setArguments (value) {
-        
-        if (fnAttr.arguments.join() === value.join()) {
-            return;
-        }
-        
-        fnAttr.arguments = value;
-        updateParamArgsMap();
-        updateLoadingType();
-        notifyObservers();
+    function setArguments (value) {                
+      fnAttr.arguments = value;
+      updateParamArgsMap();
+      updateLoadingType();
+      notifyObservers();
     }
     
     /* Methods */
@@ -144,19 +166,4 @@ function AnalysedFunction () {
     function updateInvocation (argsString) {
         setArguments(analyseFunctionCall(argsString));
     }
-    
-    /*interface*/
-    
-    this.getName_intern   = getName_intern;
-    this.getName_extern   = getName_extern;
-    this.getReturnValue   = getReturnValue;
-    this.getArguments     = getArguments;
-    this.getParamArgs     = getParameterArguments;
-    this.getLodingType    = getLodingType; 
-    this.isValidFunction  = isValidFunction;
-           
-    this.updateDeclaration = updateDeclaration;
-    this.updateInvocation  = updateInvocation;
-    
-    this.addObserver = addObserver;
 }

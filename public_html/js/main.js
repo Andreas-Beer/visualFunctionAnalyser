@@ -16,8 +16,7 @@ window.addEventListener('load', function () {
     args    : 'fn-arguments',
     pargs   : 'fn-paramargs',
     param   : 'fn-parameter',
-    returnV : 'fn-return',
-    callF   : 'fn-invocation'
+    returnV : 'fn-return'
   };
 
   var fnMachinePartsHideView = new FnMachinePartsHideView(parts);

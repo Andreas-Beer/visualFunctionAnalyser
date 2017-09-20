@@ -1,3 +1,9 @@
+svg {
+    margin: 20px 320px;
+    overflow: visible;
+    /*background-color: whitesmoke;*/
+}
+
 .text {
     font-family: courier, monospace;
     font-size:24px;

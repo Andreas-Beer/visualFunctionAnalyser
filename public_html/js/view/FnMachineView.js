@@ -48,7 +48,6 @@ function FnMachineView (model, aParts, ctrls) {
       parts.nameInt.offsetPosition({x: 0, y: offset.y });
 
       parts.args.offsetPosition({x: offset.x / 1.8, y: 0 });
-      parts.callF.offsetPosition({x: offset.x, y: 0 });
 
       parts.returnV.offsetPosition(offset);
 
@@ -58,7 +57,7 @@ function FnMachineView (model, aParts, ctrls) {
 
     function getArgsParams () {
 
-      var paramArgs = model.getParamArgs();
+      var paramArgs = model.getParamArgs(true);
       var txt = '';
       for (var param in paramArgs) {
         txt += 'var ' + param + ' = ' + paramArgs[param] + ';<br/>';
@@ -67,7 +66,7 @@ function FnMachineView (model, aParts, ctrls) {
     }        
     function getArguments () {
 
-      var newArgs = Object.values(model.getArguments());
+      var newArgs = Object.values(model.getArguments(true));
 
       bubblesTxt = '';
       bubblesWidths = [0];
@@ -93,9 +92,9 @@ function FnMachineView (model, aParts, ctrls) {
     function getArgsText () {
 
       var counter = 0;
-      var paramArgs = model.getArguments();
+      var paramArgs = model.getArguments(true);
       var txt = '';
-
+      
       txt += '<span style="text-decoration: underline">arguments</span>';
       for (var param in paramArgs) {
         txt += '<span>' + counter++ + ': ' + paramArgs[param] + '</span>';
@@ -105,7 +104,7 @@ function FnMachineView (model, aParts, ctrls) {
       return txt;
     }
     function getDynamicHeight () {
-      var length = model.getArguments().length;
+      var length = model.getArguments(true).length;
       if (length > 5) {
         return length - 5;
       } else {
@@ -113,7 +112,12 @@ function FnMachineView (model, aParts, ctrls) {
       }
     }
     function getDynamicWidth () {
-      var paramArgs = model.getParamArgs();
+      var paramArgs = model.getParamArgs(true);
+      
+      if (!Object.keys(paramArgs).length) {
+        paramArgs = model.getArguments(true);
+      }
+      
       var values = [];
 
       for (var key in paramArgs) {
@@ -138,13 +142,12 @@ function FnMachineView (model, aParts, ctrls) {
     
     parts.nameExt.show();
     parts.nameInt.show();
-    parts.callF  .show();
     parts.param  .show();
     parts.pargs  .show();
     parts.returnV.show();
     parts.args   .show();
 
-    bubbleContainer.innerHTML = getArguments();
+    bubbleContainer.innerHTML = getArguments(true);
     displayReturn();
 
     resize({
@@ -160,7 +163,6 @@ function FnMachineView (model, aParts, ctrls) {
 
     parts.nameExt.hide();
     parts.nameInt.hide();
-    parts.callF  .hide();
     parts.param  .hide();
     parts.pargs  .hide();
     parts.returnV.hide();

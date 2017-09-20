@@ -1,41 +1,56 @@
+var vfa_test = vfa_test || {};
+vfa_test.extractArgs = extractArgs;
+vfa_test.convertType = convertType;
+
 function analyseFunctionCall (argsString){
+  'use strinct';
+  return extractArgs (argsString);  
+}
 
-    'use strinct';
 
-    return extractArgs (argsString);
-    
-    function extractArgs (argsString) {
-        
-        var ret = [];
-        var tpmStr = '';
-        var layerDepth = 0;
+function extractArgs (argsString) {
+  
+  'use strinct';
 
-        for (var i = 0; i < argsString.length; i++) {
+  var ret = [];
+  var tmpStr = '';
+  var layerDepth = 0;
 
-            var item = argsString[i];
+  for (var i = 0; i < argsString.length; i++) {
 
-            switch (item) {
-                case ' ': continue;
-                case '[':
-                case '{': layerDepth++; break;
-                case ']':
-                case '}': layerDepth--; break;
-            }
-            
-            if (item === ',' && layerDepth === 0) {
-                ret.push(tpmStr);
-                tpmStr = '';
-            } else {
-                tpmStr += item;
-            }
-        }
-        
-        // if there is some string stored, add it
-        if (tpmStr !== '') {
-            ret.push(tpmStr);
-            tpmStr = '';
-        }
-        
-        return ret;
+    var item = argsString[i];
+
+    switch (item) {
+      case ' ': continue;
+      case '[':
+      case '{': layerDepth++; break;
+      case ']':
+      case '}': layerDepth--; break;
     }
+
+    if (item === ',' && layerDepth === 0) {                   
+      ret.push(convertType(tmpStr));
+      tmpStr = '';
+    } else {
+      tmpStr += item;
+    }
+  }
+
+  if (tmpStr !== '') {
+      ret.push(convertType(tmpStr));
+      tmpStr = '';
+  }
+
+  return ret;
+}
+
+function convertType (v) {
+  
+  'use strinct';
+  
+  try {
+    return eval('(' + v + ')');
+  } catch(e){}
+  
+  return v;
 }
