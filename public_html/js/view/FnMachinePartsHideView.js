@@ -2,7 +2,7 @@ function FnMachinePartsHideView (aParts) {
   
   'use strict';
   
-  this.show     = show;
+  this.show     = hide; //HACK to never show the form 
   this.hide     = hide;
   this.setState = setState;
   
